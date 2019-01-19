@@ -4,8 +4,11 @@ export default class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            txtEn : 'One',
+            txtVn : 'Mot',
             shouldShowForm: true
         }
+       
     }
     render() {
         return (
@@ -14,11 +17,15 @@ export default class Form extends Component {
                     <div className="form-group word-from" >
                         <input
                             placeholder="English"
-                            className="form-control"/>
+                            className="form-control"
+                            value={this.state.txtEn}
+                            onChange={evt => this.setState({txtEn : evt.target.value})}/>
                         <br />
                         <input
                             placeholder="Vietnamese"
-                            className="form-control"/>
+                            className="form-control"
+                            value={this.state.txtVn}
+                            onChange={evt => this.setState({txtVn : evt.target.value})}/>
                         <br />
                         <div className="btn-container">
                             <button 
@@ -37,6 +44,7 @@ export default class Form extends Component {
                              +
                     </button>
                 }
+                {JSON.stringify(this.state)}
             </div>
         )
     }
