@@ -10,7 +10,11 @@ const words = [
 export default class List extends Component {
   constructor(props) {
     super(props);
-    this.state = { words};
+    this.state = { words,
+      txtEn : '',
+      txtVn : '',
+      shouldShowForm : false
+    };
   }
   removeWord(id){
     const words = this.state.words.filter(w => w.id !== id);
@@ -47,10 +51,46 @@ export default class List extends Component {
       </div>
     )
   }
+  getForm(){
+    const { shouldShowForm , txtEn , txtVn } = this.state;
+    if(!shouldShowForm) return (
+      <button 
+        className="btn btn-success"
+        style={{width : 200 ,margin : 10}}>
+                +
+      </button>
+    );
+    return (
+      <div className="form-group word-from" >
+          <input
+              placeholder="English"
+              className="form-control"
+              value={txtEn}
+              onChange={evt => this.setState({txtEn : evt.target.value})}/>
+          <br />
+          <input
+              placeholder="Vietnamese"
+              className="form-control"
+              value={txtVn}
+              onChange={evt => this.setState({txtVn : evt.target.value})}/>
+          <br />
+          <div className="btn-container">
+              <button 
+                  className="btn btn-success">
+                  Add word
+              </button>
+              <button
+                  className="btn btn-danger">
+                  Cancel
+              </button>
+          </div>
+      </div>);
+  }
   render() {
     const { words } = this.state;
     return (
       <div>
+        {this.getForm()}
         {words.map(word => this.getWorditem(word))}
       </div>
     )
