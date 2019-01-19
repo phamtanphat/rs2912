@@ -41,7 +41,7 @@ export default class List extends Component {
         </div>
         <div className="btn-container">
           <button
-            className={word.isMemorized ? 'btn btn-danger' : 'btn btn-success'}
+            className={word.isMemorized ? 'btn btn-success' : 'btn btn-danger'}
             onClick={() => this.toggleWord(word.id)}>
             {word.isMemorized ? 'Memoried' : 'Forgot'}
           </button>
@@ -128,7 +128,7 @@ export default class List extends Component {
         {words.filter(w => {
             const {filterMode } = this.state;
             const { isMemorized } = w;
-            if(filterMode === "Show_Memorized" && isMemorized) return false;
+            if(filterMode === "Show_Memoried" && isMemorized) return false;
             if(filterMode === "Show_Forgot" && !isMemorized) return false;
             return true;
         }).map(word => this.getWorditem(word))}
