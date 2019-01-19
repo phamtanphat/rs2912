@@ -13,7 +13,8 @@ export default class List extends Component {
     this.state = { words,
       txtEn : '',
       txtVn : '',
-      shouldShowForm : false
+      shouldShowForm : false,
+      filterMode : 'Show_All'
     };
     this.toggleForm = this.toggleForm.bind(this);
     this.addWord = this.addWord.bind(this);
@@ -35,14 +36,14 @@ export default class List extends Component {
         <div className="word-container">
           <h3 className="text-success">{word.en}</h3>
           <h3 className="text-danger">
-            {word.isMemorized ? '----' : word.vn}
+            {!word.isMemorized ? '----' : word.vn}
           </h3>
         </div>
         <div className="btn-container">
           <button
             className={word.isMemorized ? 'btn btn-danger' : 'btn btn-success'}
             onClick={() => this.toggleWord(word.id)}>
-            {word.isMemorized ? 'Forgot' : 'Memoried'}
+            {word.isMemorized ? 'Memoried' : 'Forgot'}
           </button>
           <button
             className="btn btn-warning"
@@ -123,7 +124,14 @@ export default class List extends Component {
           <option value="Show_Memoried">Show Memoried</option>
           <option value="Show_Forgot">Show Forgot</option>
         </select>
-        {words.map(word => this.getWorditem(word))}
+      
+        {words.filter(w => {
+            const {filterMode } = this.state;
+            const { isMemorized } = w;
+            if(filterMode === "Show_Memorized" && isMemorized) return false;
+            if(filterMode === "Show_Forgot" && !isMemorized) return false;
+            return true;
+        }).map(word => this.getWorditem(word))}
       </div>
     )
   }
