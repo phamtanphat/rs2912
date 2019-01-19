@@ -15,6 +15,7 @@ export default class List extends Component {
       txtVn : '',
       shouldShowForm : false
     };
+    this.toggleForm = this.toggleForm.bind(this);
   }
   removeWord(id){
     const words = this.state.words.filter(w => w.id !== id);
@@ -51,12 +52,18 @@ export default class List extends Component {
       </div>
     )
   }
+
+  toggleForm(){
+    this.setState({shouldShowForm : !this.state.shouldShowForm })
+  }
   getForm(){
-    const { shouldShowForm , txtEn , txtVn } = this.state;
+    const { shouldShowForm , txtEn , txtVn  } = this.state;
     if(!shouldShowForm) return (
       <button 
         className="btn btn-success"
-        style={{width : 200 ,margin : 10}}>
+        style={{width : 200 ,margin : 10}}
+        onClick={this.toggleForm}
+      >
                 +
       </button>
     );
@@ -80,7 +87,9 @@ export default class List extends Component {
                   Add word
               </button>
               <button
-                  className="btn btn-danger">
+                  className="btn btn-danger"
+                  onClick={this.toggleForm}
+              >
                   Cancel
               </button>
           </div>
