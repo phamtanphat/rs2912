@@ -16,6 +16,7 @@ export default class List extends Component {
       shouldShowForm : false
     };
     this.toggleForm = this.toggleForm.bind(this);
+    this.addWord = this.addWord.bind(this);
   }
   removeWord(id){
     const words = this.state.words.filter(w => w.id !== id);
@@ -56,6 +57,18 @@ export default class List extends Component {
   toggleForm(){
     this.setState({shouldShowForm : !this.state.shouldShowForm })
   }
+  addWord(){
+    const { txtEn , txtVn  } = this.state;
+    const word = {
+        id : Math.random() ,
+        en : txtEn,
+        vn : txtVn,
+        isMemorized : false
+    }
+    const words = this.state.words.concat(word);
+    this.setState({words , txtEn : '' , txtVn : '' , shouldShowForm : false});
+                  
+  }
   getForm(){
     const { shouldShowForm , txtEn , txtVn  } = this.state;
     if(!shouldShowForm) return (
@@ -84,17 +97,7 @@ export default class List extends Component {
           <div className="btn-container">
               <button 
                   className="btn btn-success"
-                  onClick={() => {
-                      const { txtEn , txtVn  } = this.state;
-                      const word = {
-                          id : Math.random() ,
-                          en : txtEn,
-                          vn : txtVn,
-                          isMemorized : false
-                      }
-                      const words = this.state.words.concat(word);
-                      this.setState({words , txtEn : '' , txtVn : '' , shouldShowForm : false});
-                  }}>
+                  onClick={this.addWord}>
                   Add word
               </button>
               <button
@@ -111,6 +114,15 @@ export default class List extends Component {
     return (
       <div>
         {this.getForm()}
+        <br/>
+        <select 
+          className="word"
+          value={this.state.filterMode}
+          onChange={evt => this.setState({filterMode : evt.target.value})}>
+          <option value="Show_All">Show All</option>
+          <option value="Show_Memoried">Show Memoried</option>
+          <option value="Show_Forgot">Show Forgot</option>
+        </select>
         {words.map(word => this.getWorditem(word))}
       </div>
     )
