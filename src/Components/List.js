@@ -83,7 +83,18 @@ export default class List extends Component {
           <br />
           <div className="btn-container">
               <button 
-                  className="btn btn-success">
+                  className="btn btn-success"
+                  onClick={() => {
+                      const { txtEn , txtVn  } = this.state;
+                      const word = {
+                          id : Math.random() ,
+                          en : txtEn,
+                          vn : txtVn,
+                          isMemorized : false
+                      }
+                      const words = this.state.words.concat(word);
+                      this.setState({words , txtEn : '' , txtVn : '' , shouldShowForm : false});
+                  }}>
                   Add word
               </button>
               <button
