@@ -10,7 +10,18 @@ const words = [
 export default class List extends Component {
   constructor(props) {
     super(props);
-    this.state = { words: words };
+    this.state = { words};
+  }
+  removeWord(id){
+    const words = this.state.words.filter(w => w.id !== id);
+    this.setState({ words });
+  }
+  toggleWord(id){
+    const words = this.state.words.map(w => {
+      if(w.id !== id) return w;
+      return {...w , isMemorized : !w.isMemorized} 
+    });
+    this.setState({words});
   }
   getWorditem(word) {
     return (
@@ -23,15 +34,13 @@ export default class List extends Component {
         </div>
         <div className="btn-container">
           <button
-            className={word.isMemorized ? 'btn btn-danger' : 'btn btn-success'}>
+            className={word.isMemorized ? 'btn btn-danger' : 'btn btn-success'}
+            onClick={() => this.toggleWord(word.id)}>
             {word.isMemorized ? 'Forgot' : 'Memoried'}
           </button>
           <button
             className="btn btn-warning"
-            onClick={() => {
-              const words = this.state.words.filter(w => w.id !== word.id);
-              this.setState({ words });
-            }}>
+            onClick={() => this.removeWord(word.id)}>
             Remove
           </button>
         </div>
