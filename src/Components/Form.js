@@ -4,16 +4,16 @@ export default class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            txtEn : 'One',
-            txtVn : 'Mot',
-            shouldShowForm: true
+            txtEn : '',
+            txtVn : '',
         }
        
     }
     render() {
+        const { shouldShowForm } = this.props;
         return (
             <div>
-                {this.state.shouldShowForm ? 
+                {shouldShowForm ? 
                     <div className="form-group word-from" >
                         <input
                             placeholder="English"
@@ -44,7 +44,6 @@ export default class Form extends Component {
                              +
                     </button>
                 }
-                {JSON.stringify(this.state)}
             </div>
         )
     }
