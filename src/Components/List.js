@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Word from './Word';
+import Form from './Form';
 const words = [
   { id: 'a1', en: "One", vn: "Mot", isMemorized: true },
   { id: 'a2', en: "Two", vn: "Hai", isMemorized: false },
@@ -11,8 +12,6 @@ export default class List extends Component {
   constructor(props) {
     super(props);
     this.state = { words,
-      txtEn : '',
-      txtVn : '',
       shouldShowForm : false,
       filterMode : 'Show_All'
     };
@@ -45,51 +44,12 @@ export default class List extends Component {
     this.setState({words , txtEn : '' , txtVn : '' , shouldShowForm : false});
                   
   }
-  getForm(){
-    const { shouldShowForm , txtEn , txtVn  } = this.state;
-    if(!shouldShowForm) return (
-      <button 
-        className="btn btn-success"
-        style={{width : 200 ,margin : 10}}
-        onClick={this.toggleForm}
-      >
-                +
-      </button>
-    );
-    return (
-      <div className="form-group word-from" >
-          <input
-              placeholder="English"
-              className="form-control"
-              value={txtEn}
-              onChange={evt => this.setState({txtEn : evt.target.value})}/>
-          <br />
-          <input
-              placeholder="Vietnamese"
-              className="form-control"
-              value={txtVn}
-              onChange={evt => this.setState({txtVn : evt.target.value})}/>
-          <br />
-          <div className="btn-container">
-              <button 
-                  className="btn btn-success"
-                  onClick={this.addWord}>
-                  Add word
-              </button>
-              <button
-                  className="btn btn-danger"
-                  onClick={this.toggleForm}
-              >
-                  Cancel
-              </button>
-          </div>
-      </div>);
-  }
+ 
   render() {
-    const { words } = this.state;
+    const { words , shouldShowForm} = this.state;
     return (
       <div>
-        {this.getForm()}
+        <Form shouldShowForm={shouldShowForm}/>
         <br/>
         <select 
           className="word"
