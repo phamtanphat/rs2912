@@ -16,34 +16,28 @@ export default class List extends Component {
       shouldShowForm : false,
       filterMode : 'Show_All'
     };
-    this.toggleForm = this.toggleForm.bind(this);
-    this.addWord = this.addWord.bind(this);
     this.onRemoveWord = this.onRemoveWord.bind(this);
+    this.onToggleWord = this.onToggleWord.bind(this);
+    this.onToggleForm = this.onToggleForm.bind(this);
+    this.onAddWord = this.onAddWord.bind(this);
   }
   onRemoveWord(id){
     const words = this.state.words.filter(w => w.id !== id);
     this.setState({ words });
   }
-  toggleWord(id){
+  onToggleWord(id){
     const words = this.state.words.map(w => {
       if(w.id !== id) return w;
       return {...w , isMemorized : !w.isMemorized} 
     });
     this.setState({words});
   }
-  toggleForm(){
+  onToggleForm(){
     this.setState({shouldShowForm : !this.state.shouldShowForm })
   }
-  addWord(){
-    const { txtEn , txtVn  } = this.state;
-    const word = {
-        id : Math.random() ,
-        en : txtEn,
-        vn : txtVn,
-        isMemorized : false
-    }
+  onAddWord(word){
     const words = this.state.words.concat(word);
-    this.setState({words , txtEn : '' , txtVn : '' , shouldShowForm : false});
+    this.setState({words , shouldShowForm : false});
                   
   }
  
@@ -51,7 +45,10 @@ export default class List extends Component {
     const { words , shouldShowForm} = this.state;
     return (
       <div>
-        <Form shouldShowForm={shouldShowForm}/>
+        <Form 
+          shouldShowForm={shouldShowForm}
+          onToggleForm={this.onToggleForm}
+          onAddWord={this.onAddWord}/>
         <br/>
         <Filter filterMode={this.state.filterMode}/>
         {words.filter(w => {
@@ -62,7 +59,8 @@ export default class List extends Component {
           <Word 
             key={word.id} 
             word={word}
-            onRemoveWord={this.onRemoveWord}/>)}
+            onRemoveWord={this.onRemoveWord}
+            onToggleWord={this.onToggleWord}/>)}
       </div>
     )
   }
