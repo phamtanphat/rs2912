@@ -2,17 +2,44 @@ import React, { Component } from 'react';
 // import Word from './Components/Word'
 import './App.css';
 // import Loop from './Components/Loop'
-// import List from './Components/List';
+import List from './Components/List';
 // import Box from './Components/Box';
 // import Form from './Components/Form';
-import Parent from './Components/Parent';
+// import Parent from './Components/Parent';
 import { createStore } from 'redux';
 import {Provider} from 'react-redux';
 
-const store = createStore((state = {count : 10} , action) =>{
-    if(action.type === 'INCREASE') return {count : state.count + 1}
-    if(action.type === 'DECREASE') return {count : state.count - 1}
-    if(action.type === 'RESET') return {count : 0}
+const words = [
+  { id: 'a1', en: "One", vn: "Mot", isMemorized: true },
+  { id: 'a2', en: "Two", vn: "Hai", isMemorized: false },
+  { id: 'a3', en: "Three", vn: "Ba", isMemorized: false },
+  { id: 'a4', en: "Four", vn: "Bon", isMemorized: true },
+]
+
+
+const defaultState = {
+    words : words,
+    shouldShowForm : false,
+    filterMode : 'Show_All'
+}
+const store = createStore((state = defaultState , action) =>{
+    if(action.type === 'TOGGLE_FORM') return {...state , shouldShowForm : !state.shouldShowForm}
+    if(action.type === 'REMOVE_WORD'){
+       const words = state.words.filter(w => w.id !== action.id)
+       return {...state , words};
+    }
+    if(action.type === 'TOGGLE_WORD'){
+       const words = state.words.map(w =>{
+          if(action.id === w.id) return {...w , isMemorized : !w.isMemorized}
+          return w;
+       })
+       return {...state,words}
+    }
+    if(action.type === 'SET_FILTER_MODE') return {...state , filterMode : action.filterMode}
+    if(action.type === 'ADD_WORD'){
+       const words = state.words.concat(action.word);
+       return {...state,words , shouldShowForm : false}
+    }
     return state;
 });
 
@@ -24,7 +51,7 @@ class App extends Component {
           {/* <Box/> */}
           {/* <Form/> */}
           <Provider store={store}>
-              <Parent/>
+              <List/>
           </Provider>
       </div>
     );
