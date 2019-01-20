@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
+import {connect } from 'react-redux';
 
-export default class Form extends Component {
+class Form extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -18,10 +19,10 @@ export default class Form extends Component {
             isMemorized : false
         }
         this.setState({txtEn : '' , txtVn : ''})
-        this.props.onAddWord(word);
+        this.props.dispatch({type : 'ADD_WORD' , word});
     }
     render() {
-        const { shouldShowForm , onToggleForm } = this.props;
+        const { shouldShowForm , dispatch } = this.props;
         return (
             <div>
                 {shouldShowForm ? 
@@ -46,7 +47,7 @@ export default class Form extends Component {
                             </button>
                             <button
                                 className="btn btn-danger"
-                                onClick={onToggleForm}>
+                                onClick={() =>dispatch({type : "TOGGLE_FORM"})}>
                                 Cancel
                             </button>
                         </div>
@@ -54,7 +55,7 @@ export default class Form extends Component {
                      <button 
                      className="btn btn-success"
                      style={{width : 200 ,margin : 10}}
-                     onClick={onToggleForm}>
+                     onClick={() =>dispatch({type : "TOGGLE_FORM"})}>
                              +
                     </button>
                 }
@@ -62,3 +63,9 @@ export default class Form extends Component {
         )
     }
 }
+
+const mapStateToProps = function(state){
+    return {shouldShowForm : state.shouldShowForm};
+}
+
+export default connect(mapStateToProps)(Form);
