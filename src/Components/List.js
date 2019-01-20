@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import Word from './Word';
+import Word from './Word';
 const words = [
   { id: 'a1', en: "One", vn: "Mot", isMemorized: true },
   { id: 'a2', en: "Two", vn: "Hai", isMemorized: false },
@@ -30,36 +30,6 @@ export default class List extends Component {
     });
     this.setState({words});
   }
-  getWorditem(word) {
-    const {filterMode} = this.state;
-    const { isMemorized } = word;
-    if(filterMode === 'Show_Forgot' && !isMemorized) return word;
-    if(filterMode === 'Show_Memorized' && isMemorized) return word;
-    if(filterMode === 'Show_All') return word;
-    return (
-      <div className="word" key={word.id}>
-        <div className="word-container">
-          <h3 className="text-success">{word.en}</h3>
-          <h3 className="text-danger">
-            {word.isMemorized ? '----' : word.vn}
-          </h3>
-        </div>
-        <div className="btn-container">
-          <button
-            className={word.isMemorized ? 'btn btn-success' : 'btn btn-danger'}
-            onClick={() => this.toggleWord(word.id)}>
-            {word.isMemorized ? 'Forgot' : 'Memorized'}
-          </button>
-          <button
-            className="btn btn-warning"
-            onClick={() => this.removeWord(word.id)}>
-            Remove
-          </button>
-        </div>
-      </div>
-    )
-  }
-
   toggleForm(){
     this.setState({shouldShowForm : !this.state.shouldShowForm })
   }
@@ -130,7 +100,11 @@ export default class List extends Component {
           <option value="Show_Forgot">Show Forgot</option>
         </select>
       
-        {words.map(word => this.getWorditem(word))}
+        {words.filter(w => {
+          if(this.state.filterMode === 'Show_Forgot' && w.isMemorized) return false;
+          if(this.state.filterMode === 'Show_Memorized' && !w.isMemorized) return false;
+          return true;
+        }).map(word => <Word key={word.id} word={word}/>)}
       </div>
     )
   }
