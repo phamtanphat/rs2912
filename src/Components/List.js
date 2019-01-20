@@ -31,6 +31,11 @@ export default class List extends Component {
     this.setState({words});
   }
   getWorditem(word) {
+    const {filterMode} = this.state;
+    const { isMemorized } = word;
+    if(filterMode === 'Show_Forgot' && !isMemorized) return word;
+    if(filterMode === 'Show_Memorized' && isMemorized) return word;
+    if(filterMode === 'Show_All') return word;
     return (
       <div className="word" key={word.id}>
         <div className="word-container">
@@ -125,13 +130,7 @@ export default class List extends Component {
           <option value="Show_Forgot">Show Forgot</option>
         </select>
       
-        {words.filter(w => {
-            const {filterMode } = this.state;
-            const { isMemorized } = w;
-            if(filterMode === "Show_Memoried" && isMemorized) return false;
-            if(filterMode === "Show_Forgot" && !isMemorized) return false;
-            return true;
-        }).map(word => this.getWorditem(word))}
+        {words.map(word => this.getWorditem(word))}
       </div>
     )
   }
