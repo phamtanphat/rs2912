@@ -7,10 +7,21 @@ export default class Form extends Component {
             txtEn : '',
             txtVn : '',
         }
-       
+        this.addWord = this.addWord.bind(this);    
+    }
+   addWord(){
+        const { txtEn , txtVn} = this.state;
+        const word = {
+            id : Math.random(),
+            en : txtEn,
+            vn : txtVn,
+            isMemorized : false
+        }
+        this.setState({txtEn : '' , txtVn : ''})
+        this.props.onAddWord(word);
     }
     render() {
-        const { shouldShowForm } = this.props;
+        const { shouldShowForm , onToggleForm } = this.props;
         return (
             <div>
                 {shouldShowForm ? 
@@ -29,18 +40,21 @@ export default class Form extends Component {
                         <br />
                         <div className="btn-container">
                             <button 
-                                className="btn btn-success">
+                                className="btn btn-success"
+                                onClick={this.addWord}>
                                 Add word
                             </button>
                             <button
-                                className="btn btn-danger">
+                                className="btn btn-danger"
+                                onClick={onToggleForm}>
                                 Cancel
                             </button>
                         </div>
-                    </div>:
+                    </div> :
                      <button 
                      className="btn btn-success"
-                     style={{width : 200 ,margin : 10}}>
+                     style={{width : 200 ,margin : 10}}
+                     onClick={onToggleForm}>
                              +
                     </button>
                 }
