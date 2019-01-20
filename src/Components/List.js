@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Word from './Word';
 import Form from './Form';
+import Filter from './Filter';
 const words = [
   { id: 'a1', en: "One", vn: "Mot", isMemorized: true },
   { id: 'a2', en: "Two", vn: "Hai", isMemorized: false },
@@ -51,15 +52,7 @@ export default class List extends Component {
       <div>
         <Form shouldShowForm={shouldShowForm}/>
         <br/>
-        <select 
-          className="word"
-          value={this.state.filterMode}
-          onChange={evt => this.setState({filterMode : evt.target.value})}>
-          <option value="Show_All">Show All</option>
-          <option value="Show_Memorized">Show Memoried</option>
-          <option value="Show_Forgot">Show Forgot</option>
-        </select>
-      
+        <Filter filterMode={this.state.filterMode}/>
         {words.filter(w => {
           if(this.state.filterMode === 'Show_Forgot' && w.isMemorized) return false;
           if(this.state.filterMode === 'Show_Memorized' && !w.isMemorized) return false;
@@ -69,4 +62,3 @@ export default class List extends Component {
     )
   }
 }
-
