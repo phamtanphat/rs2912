@@ -96,7 +96,7 @@ export default class List extends Component {
           value={this.state.filterMode}
           onChange={evt => this.setState({filterMode : evt.target.value})}>
           <option value="Show_All">Show All</option>
-          <option value="Show_Memoried">Show Memoried</option>
+          <option value="Show_Memorized">Show Memoried</option>
           <option value="Show_Forgot">Show Forgot</option>
         </select>
       
