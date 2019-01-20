@@ -18,8 +18,9 @@ export default class List extends Component {
     };
     this.toggleForm = this.toggleForm.bind(this);
     this.addWord = this.addWord.bind(this);
+    this.onRemoveWord = this.onRemoveWord.bind(this);
   }
-  removeWord(id){
+  onRemoveWord(id){
     const words = this.state.words.filter(w => w.id !== id);
     this.setState({ words });
   }
@@ -57,7 +58,11 @@ export default class List extends Component {
           if(this.state.filterMode === 'Show_Forgot' && w.isMemorized) return false;
           if(this.state.filterMode === 'Show_Memorized' && !w.isMemorized) return false;
           return true;
-        }).map(word => <Word key={word.id} word={word}/>)}
+        }).map(word => 
+          <Word 
+            key={word.id} 
+            word={word}
+            onRemoveWord={this.onRemoveWord}/>)}
       </div>
     )
   }
