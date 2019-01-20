@@ -20,6 +20,7 @@ export default class List extends Component {
     this.onToggleWord = this.onToggleWord.bind(this);
     this.onToggleForm = this.onToggleForm.bind(this);
     this.onAddWord = this.onAddWord.bind(this);
+    this.onFilter = this.onFilter.bind(this);
   }
   onRemoveWord(id){
     const words = this.state.words.filter(w => w.id !== id);
@@ -40,6 +41,9 @@ export default class List extends Component {
     this.setState({words , shouldShowForm : false});
                   
   }
+  onFilter(filterMode){
+     this.setState({filterMode});
+  }
  
   render() {
     const { words , shouldShowForm} = this.state;
@@ -50,7 +54,9 @@ export default class List extends Component {
           onToggleForm={this.onToggleForm}
           onAddWord={this.onAddWord}/>
         <br/>
-        <Filter filterMode={this.state.filterMode}/>
+        <Filter 
+          filterMode={this.state.filterMode}
+          onFilter={this.onFilter}/>
         {words.filter(w => {
           if(this.state.filterMode === 'Show_Forgot' && w.isMemorized) return false;
           if(this.state.filterMode === 'Show_Memorized' && !w.isMemorized) return false;
