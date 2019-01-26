@@ -6,7 +6,7 @@ import List from './Components/List';
 // import Box from './Components/Box';
 // import Form from './Components/Form';
 // import Parent from './Components/Parent';
-import { createStore } from 'redux';
+import { createStore , combineReducers} from 'redux';
 import { Provider } from 'react-redux';
 
 const words = [
@@ -15,19 +15,6 @@ const words = [
   { id: 'a3', en: "Three", vn: "Ba", isMemorized: false },
   { id: 'a4', en: "Four", vn: "Bon", isMemorized: true },
 ]
-
-
-const defaultState = {
-  words: words,
-  shouldShowForm: false,
-  filterMode: 'Show_All'
-}
-
-const reducer = (state = defaultState, action) => {
-
-
-  return state;
-}
 
 function wordReducer(state = words, action) {
   if (action.type === 'REMOVE_WORD') {
@@ -45,16 +32,22 @@ function wordReducer(state = words, action) {
     })
     return words;
   }
+  return state;
 }
 function shouldShowFormReducer(state = false, action) {
   if (action.type === 'TOGGLE_FORM') return !state;
   if (action.type === 'ADD_WORD') return false;
+  return state;
 }
 function filterModeReducer(state = false, action) {
   if (action.type === 'SET_FILTER_MODE') return action.filterMode
-
+  return state;
 }
-
+const reducer = combineReducers({
+    words : wordReducer,
+    shouldShowForm : shouldShowFormReducer,
+    filterMode : filterModeReducer
+})
 const store = createStore(reducer);
 
 class App extends Component {
