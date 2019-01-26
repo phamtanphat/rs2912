@@ -7,7 +7,7 @@ import List from './Components/List';
 // import Form from './Components/Form';
 // import Parent from './Components/Parent';
 import { createStore } from 'redux';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 
 const words = [
   { id: 'a1', en: "One", vn: "Mot", isMemorized: true },
@@ -18,41 +18,55 @@ const words = [
 
 
 const defaultState = {
-    words : words,
-    shouldShowForm : false,
-    filterMode : 'Show_All'
+  words: words,
+  shouldShowForm: false,
+  filterMode: 'Show_All'
 }
-const store = createStore((state = defaultState , action) =>{
-    if(action.type === 'TOGGLE_FORM') return {...state , shouldShowForm : !state.shouldShowForm}
-    if(action.type === 'REMOVE_WORD'){
-       const words = state.words.filter(w => w.id !== action.id)
-       return {...state , words};
-    }
-    if(action.type === 'TOGGLE_WORD'){
-       const words = state.words.map(w =>{
-          if(action.id === w.id) return {...w , isMemorized : !w.isMemorized}
-          return w;
-       })
-       return {...state,words}
-    }
-    if(action.type === 'SET_FILTER_MODE') return {...state , filterMode : action.filterMode}
-    if(action.type === 'ADD_WORD'){
-       const words = state.words.concat(action.word);
-       return {...state,words , shouldShowForm : false}
-    }
-    return state;
-});
+
+const reducer = (state = defaultState, action) => {
+
+
+  return state;
+}
+
+function wordReducer(state = words, action) {
+  if (action.type === 'REMOVE_WORD') {
+    const words = state.filter(w => w.id !== action.id)
+    return words;
+  }
+  if (action.type === 'ADD_WORD') {
+    const words = state.concat(action.word);
+    return words;
+  }
+  if (action.type === 'TOGGLE_WORD') {
+    const words = state.map(w => {
+      if (action.id === w.id) return { ...w, isMemorized: !w.isMemorized }
+      return w;
+    })
+    return words;
+  }
+}
+function shouldShowFormReducer(state = false, action) {
+  if (action.type === 'TOGGLE_FORM') return !state;
+  if (action.type === 'ADD_WORD') return false;
+}
+function filterModeReducer(state = false, action) {
+  if (action.type === 'SET_FILTER_MODE') return action.filterMode
+
+}
+
+const store = createStore(reducer);
 
 class App extends Component {
   render() {
     return (
       <div>
-          {/* <List/> */}
-          {/* <Box/> */}
-          {/* <Form/> */}
-          <Provider store={store}>
-              <List/>
-          </Provider>
+        {/* <List/> */}
+        {/* <Box/> */}
+        {/* <Form/> */}
+        <Provider store={store}>
+          <List />
+        </Provider>
       </div>
     );
   }
