@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import {connect } from 'react-redux';
+import * as actionCreators from './redux/actionCreators';
 
 class Form extends Component {
     constructor(props) {
@@ -19,10 +20,10 @@ class Form extends Component {
             isMemorized : false
         }
         this.setState({txtEn : '' , txtVn : ''})
-        this.props.dispatch({type : 'ADD_WORD' , word});
+        this.props.addWord(word);
     }
     render() {
-        const { shouldShowForm , dispatch } = this.props;
+        const { shouldShowForm  } = this.props;
         return (
             <div>
                 {shouldShowForm ? 
@@ -47,7 +48,7 @@ class Form extends Component {
                             </button>
                             <button
                                 className="btn btn-danger"
-                                onClick={() =>dispatch({type : "TOGGLE_FORM"})}>
+                                onClick={this.props.toggleForm}>
                                 Cancel
                             </button>
                         </div>
@@ -55,7 +56,7 @@ class Form extends Component {
                      <button 
                      className="btn btn-success"
                      style={{width : 200 ,margin : 10}}
-                     onClick={() =>dispatch({type : "TOGGLE_FORM"})}>
+                     onClick={this.props.toggleForm}>
                              +
                     </button>
                 }
@@ -68,4 +69,4 @@ const mapStateToProps = function(state){
     return {shouldShowForm : state.shouldShowForm};
 }
 
-export default connect(mapStateToProps)(Form);
+export default connect(mapStateToProps , actionCreators)(Form);
