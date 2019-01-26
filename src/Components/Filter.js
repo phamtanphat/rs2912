@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-
-export default class Filter extends Component {
+import {connect} from 'react-redux';
+class Filter extends Component {
     render() {
-        const { filterMode , onFilter} = this.props;
+        const { filterMode , dispatch} = this.props;
         return (
             <div>
                 <select
                     className="word"
                     value={filterMode}
-                    onChange={evt => onFilter(evt.target.value)}>
+                    onChange={evt => dispatch({type : 'SET_FILTER_MODE' , filterMode : evt.target.value})}>
                     <option value="Show_All">Show All</option>
                     <option value="Show_Memorized">Show Memoried</option>
                     <option value="Show_Forgot">Show Forgot</option>
@@ -17,3 +17,7 @@ export default class Filter extends Component {
         )
     }
 }
+const mapStateToProps = function(state){
+    return {filterMode : state.filterMode}
+}
+export default connect(mapStateToProps)(Filter);
