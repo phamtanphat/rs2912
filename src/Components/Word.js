@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-
-
+import { removeWord } from './redux/actionCreators';
 class Word extends Component {
     render() {
         const {word ,dispatch} = this.props;
@@ -21,7 +20,7 @@ class Word extends Component {
                     </button>
                     <button
                         className="btn btn-warning"
-                        onClick={() => dispatch({type : 'REMOVE_WORD' , id : word.id})}>
+                        onClick={() => this.props.removeWord(word.id)}>
                         Remove
                     </button>
                 </div>
@@ -29,4 +28,12 @@ class Word extends Component {
         );
     }
 }
-export default connect()(Word);
+
+// connect(thamsoa , thamsob)
+// > thamsoa = 
+    // +Gia tri o trong store muon hien thi len cho Components phai co kieu la object
+    // + Lay gia tri tham so a = this.props.tenthuoctinhthamsoa
+// > thamsob =
+    // + Phuong thuc da duoc dispatch de xu ly logic cho du lieu
+    // + Lay gia tri tham so b = this.props.tenphuongthucxuly
+export default connect(null,{removeWord})(Word);
