@@ -1,14 +1,16 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux';
+import * as actionCreators from './redux/actionCreators';
+
 class Filter extends Component {
     render() {
-        const { filterMode , dispatch} = this.props;
+        const { filterMode , setFilterMode} = this.props;
         return (
             <div>
                 <select
                     className="word"
                     value={filterMode}
-                    onChange={evt => dispatch({type : 'SET_FILTER_MODE' , filterMode : evt.target.value})}>
+                    onChange={evt => setFilterMode(evt.target.value)}>
                     <option value="Show_All">Show All</option>
                     <option value="Show_Memorized">Show Memoried</option>
                     <option value="Show_Forgot">Show Forgot</option>
@@ -20,4 +22,4 @@ class Filter extends Component {
 const mapStateToProps = function(state){
     return {filterMode : state.filterMode}
 }
-export default connect(mapStateToProps)(Filter);
+export default connect(mapStateToProps , actionCreators)(Filter);
