@@ -10,7 +10,8 @@ class Word extends Component {
     }
     removeWord(_id){
         const URL = "http://localhost:4000/word/" +  _id;
-        axios.delete()
+        axios.delete(URL)
+        .then(res => this.props.removeWord(_id));
     }
     render() {
         const {word } = this.props;
@@ -30,7 +31,7 @@ class Word extends Component {
                     </button>
                     <button
                         className="btn btn-warning"
-                        onClick={() => this.props.removeWord(word._id)}>
+                        onClick={() => this.removeWord(word._id)}>
                         Remove
                     </button>
                 </div>
