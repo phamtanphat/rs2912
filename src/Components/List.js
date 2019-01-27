@@ -9,7 +9,7 @@ class List extends Component {
   componentWillMount(){
     const URL = "http://localhost:4000/word";
     axios.get(URL)
-    .then(response => console.log(response.data.words));
+    .then(response => this.props.dispatch({type : 'SET_WORDS' , words : response.data.words}));
   }
   render() {
     const { words , filterMode} = this.props;
@@ -24,7 +24,7 @@ class List extends Component {
           return true;
         }).map(word => 
           <Word 
-            key={word.id} 
+            key={word._id} 
             word={word}/>)}
       </div>
     )

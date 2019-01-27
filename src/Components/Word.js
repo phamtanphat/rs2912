@@ -1,7 +1,17 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import * as actionCreators from './redux/actionCreators';
+import axios from 'axios';
 class Word extends Component {
+    toggleWord(_id , isMemorized){
+        const URL = "http://localhost:4000/word/" +  _id;
+        axios.put(URL , {isMemorized})
+        .then(res => this.props.toggleWord(_id));
+    }
+    removeWord(_id){
+        const URL = "http://localhost:4000/word/" +  _id;
+        axios.delete()
+    }
     render() {
         const {word } = this.props;
         return (
@@ -15,12 +25,12 @@ class Word extends Component {
                 <div className="btn-container">
                     <button
                         className={word.isMemorized ? 'btn btn-success' : 'btn btn-danger'}
-                        onClick={() => this.props.toggleWord(word.id)}>
+                        onClick={() => this.toggleWord(word._id , !word.isMemorized)}>
                         {word.isMemorized ? 'Forgot' : 'Memorized'}
                     </button>
                     <button
                         className="btn btn-warning"
-                        onClick={() => this.props.removeWord(word.id)}>
+                        onClick={() => this.props.removeWord(word._id)}>
                         Remove
                     </button>
                 </div>
