@@ -16,7 +16,9 @@ class Form extends Component {
         const URL = "http://localhost:4000/word/"
         axios.post(URL , { en : txtEn , vn : txtVn})
         .then(res => {
-            this.props.addWord(res.data.word);           
+            const { success , word , message} = res.data;
+            if(!success) return alert(message);
+            this.props.addWord(word)           
         });
         this.setState({txtEn : '' , txtVn : ''})
        
