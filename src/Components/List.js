@@ -3,13 +3,11 @@ import Word from './Word';
 import Form from './Form';
 import Filter from './Filter';
 import {connect} from 'react-redux';
-import axios from 'axios';
+import * as actionCreators from './redux/actionCreators';
 
 class List extends Component {
   componentWillMount(){
-    const URL = "http://localhost:4000/word";
-    axios.get(URL)
-    .then(response => this.props.dispatch({type : 'SET_WORDS' , words : response.data.words}));
+    this.props.getAllWords();
   }
   render() {
     const { words , filterMode} = this.props;
@@ -35,4 +33,4 @@ const mapStateToProps = function(state){
    return {words : state.words , filterMode : state.filterMode}
 }
 
-export default connect(mapStateToProps)(List);
+export default connect(mapStateToProps,actionCreators)(List);

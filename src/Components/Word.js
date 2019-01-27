@@ -8,11 +8,7 @@ class Word extends Component {
         axios.put(URL , {isMemorized})
         .then(res => this.props.toggleWord(_id));
     }
-    removeWord(_id){
-        const URL = "http://localhost:4000/word/" +  _id;
-        axios.delete(URL)
-        .then(res => this.props.removeWord(_id));
-    }
+    
     render() {
         const {word } = this.props;
         return (
@@ -31,7 +27,7 @@ class Word extends Component {
                     </button>
                     <button
                         className="btn btn-warning"
-                        onClick={() => this.removeWord(word._id)}>
+                        onClick={() => this.props.removeWord(word._id)}>
                         Remove
                     </button>
                 </div>
