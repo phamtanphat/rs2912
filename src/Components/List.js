@@ -3,9 +3,14 @@ import Word from './Word';
 import Form from './Form';
 import Filter from './Filter';
 import {connect} from 'react-redux';
-
+import axios from 'axios';
 
 class List extends Component {
+  componentWillMount(){
+    const URL = "http://localhost:4000/word";
+    axios.get(URL)
+    .then(response => console.log(response.data.words));
+  }
   render() {
     const { words , filterMode} = this.props;
     return (

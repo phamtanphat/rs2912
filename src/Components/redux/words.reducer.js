@@ -1,11 +1,7 @@
-const words = [
-    { id: 'a1', en: "One", vn: "Mot", isMemorized: true },
-    { id: 'a2', en: "Two", vn: "Hai", isMemorized: false },
-    { id: 'a3', en: "Three", vn: "Ba", isMemorized: false },
-    { id: 'a4', en: "Four", vn: "Bon", isMemorized: true },
-]
 
-export function wordReducer(state = words, action) {
+
+export function wordReducer(state = [], action) {
+    if (action.type === "SET_WORDS") return state.concat(action.words);
     if (action.type === 'REMOVE_WORD') {
         const words = state.filter(w => w.id !== action.id)
         return words;

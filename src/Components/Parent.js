@@ -12,7 +12,6 @@ class Parent extends Component {
         )
     }
 }
-
 const mapStateToProps = function(state){
     return {count : state.count}
 }
