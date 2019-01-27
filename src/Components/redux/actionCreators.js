@@ -1,4 +1,5 @@
 import axios from 'axios';
+const URL = "https://servernodejs2912.herokuapp.com/word/"
 export function toggleForm(){
     return {type : 'TOGGLE_FORM'}
 }
@@ -9,21 +10,18 @@ export function setFilterMode(filterMode){
 
 export function getAllWords(){
     return function(dispatch){
-        const URL = "http://localhost:4000/word";
         axios.get(URL)
         .then(response => dispatch({type : 'SET_WORDS' , words : response.data.words}));
     }
 }
 export function removeWord(_id){
     return function(dispatch){
-        const URL = "http://localhost:4000/word/" +  _id;
-        axios.delete(URL)
+        axios.delete(URL +  _id)
         .then(() => dispatch({type : 'REMOVE_WORD' , _id}));
     }
 }
 export function addWord(en , vn){
     return function(dispatch){
-        const URL = "http://localhost:4000/word/"
         axios.post(URL , { en,vn })
         .then(res => {
             const { success , word , message} = res.data;
@@ -35,8 +33,7 @@ export function addWord(en , vn){
 }
 export function toggleWord(_id , isMemorized){
     return function(dispatch){
-        const URL = "http://localhost:4000/word/" +  _id;
-        axios.put(URL , {isMemorized})
+        axios.put(URL +  _id, {isMemorized})
         .then(res => dispatch({type : 'TOGGLE_WORD' , _id}));
     }
 }
