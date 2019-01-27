@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import {connect } from 'react-redux';
 import * as actionCreators from './redux/actionCreators';
-import axios from 'axios';
 class Form extends Component {
     constructor(props) {
         super(props);
@@ -12,15 +11,9 @@ class Form extends Component {
         this.addWord = this.addWord.bind(this);    
     }
    addWord(){
-        const { txtEn , txtVn} = this.state;
-        const URL = "http://localhost:4000/word/"
-        axios.post(URL , { en : txtEn , vn : txtVn})
-        .then(res => {
-            const { success , word , message} = res.data;
-            if(!success) return alert(message);
-            this.props.addWord(word)           
-        });
-        this.setState({txtEn : '' , txtVn : ''})
+    const { txtEn , txtVn} = this.state;
+    this.props.addWord(txtEn , txtVn);
+    this.setState({txtEn : '' , txtVn : ''})
        
     }
     render() {
